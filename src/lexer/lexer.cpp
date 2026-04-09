@@ -35,34 +35,34 @@ namespace beatlang::lexer {
     
     char Lexer::pick() {
 
-        std::cout << "In pick()" << std::endl;
+        // std::cout << "In pick()" << std::endl;
         if (pos >= sourceCode.size()) {
             return '\0'; // End of file
         }
-        std::cout << "Exiting pick()" << std::endl;
+        // std::cout << "Exiting pick()" << std::endl;
         return sourceCode[pos];
     }
     
     char Lexer::advance(){
-        std::cout << "In advance()" << std::endl;
+       // std::cout << "In advance()" << std::endl;
        if (pos >= sourceCode.size()) {
            return '\0'; // End of file
         }
         currentColumn ++;
-         std::cout << "Exiting advance()" << std::endl;
+        // std::cout << "Exiting advance()" << std::endl;
         return sourceCode[pos++];
     }
 
     void Lexer::addToken(TokenTypes type, const std::string &lexeme, int startCol){
-        std::cout << "In addToken()" << std::endl;
+        // std::cout << "In addToken()" << std::endl;
         extractedTokens.push_back({type, lexeme, currentLine, startCol});
-                std::cout << "Exiting addToken()" << std::endl;
+        // std::cout << "Exiting addToken()" << std::endl;
     }
 
     void Lexer::skip_whiteSpace_comments(){
 
         while (true){
-            std::cout << "In skip()" << std::endl;
+            // std::cout << "In skip()" << std::endl;
             char c = pick();
             if (c == ' ' || c == '\r' || c == '\t' )
                 // The character picked is a white space so we ignore it
@@ -84,14 +84,14 @@ namespace beatlang::lexer {
                 break;
             }
         }
-                std::cout << "Exiting skip()" << std::endl;
+            // std::cout << "Exiting skip()" << std::endl;
 
     }
 
     void Lexer::tokenise() {
 
         while (pos < sourceCode.length()){
-        std::cout << "In tokenise()" << std::endl;
+        // std::cout << "In tokenise()" << std::endl;
 
             skip_whiteSpace_comments();
 
@@ -179,7 +179,7 @@ namespace beatlang::lexer {
                                       std::to_string(startCol) + ": Unrecognized character '" + unknownChar + "'");
         }
         addToken(TokenTypes::END_OF_FILE, "EOF", currentColumn);
-    std::cout << "Exiting tokenise()" << std::endl;
+        // std::cout << "Exiting tokenise()" << std::endl;
     }
     
     const std::vector<Token>& Lexer::getTokens() const {
