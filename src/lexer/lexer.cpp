@@ -11,8 +11,9 @@ namespace beatlang::lexer {
     Lexer::Lexer(const std::string source) : 
     sourceCode(std::move(source)), 
     pos(0), 
-    currentColumn(1), 
-    currentLine(1) {
+    currentLine(1),
+    currentColumn(1)
+    {
         keywords = {
             {"tempo", TokenTypes::KW_TEMPO},
             {"pattern", TokenTypes::KW_PATTERN},
@@ -21,7 +22,7 @@ namespace beatlang::lexer {
             {"kick", TokenTypes::KW_KICK},
             {"snare", TokenTypes::KW_SNARE},
             {"snare_rim", TokenTypes::KW_SN_RIM},
-            {"Hi_Hat", TokenTypes::KW_HH},
+            {"hi_hat", TokenTypes::KW_HH},
             {"tom1", TokenTypes::KW_TOM1},
             {"tom2", TokenTypes::KW_TOM2},
             {"floor", TokenTypes::KW_FLOOR},
@@ -33,27 +34,35 @@ namespace beatlang::lexer {
     
     
     char Lexer::pick() {
+
+        std::cout << "In pick()" << std::endl;
         if (pos >= sourceCode.size()) {
             return '\0'; // End of file
         }
+        std::cout << "Exiting pick()" << std::endl;
         return sourceCode[pos];
     }
     
     char Lexer::advance(){
-        
+        std::cout << "In advance()" << std::endl;
        if (pos >= sourceCode.size()) {
            return '\0'; // End of file
         }
         currentColumn ++;
+         std::cout << "Exiting advance()" << std::endl;
         return sourceCode[pos++];
     }
 
     void Lexer::addToken(TokenTypes type, const std::string &lexeme, int startCol){
+        std::cout << "In addToken()" << std::endl;
         extractedTokens.push_back({type, lexeme, currentLine, startCol});
+                std::cout << "Exiting addToken()" << std::endl;
     }
 
     void Lexer::skip_whiteSpace_comments(){
+
         while (true){
+            std::cout << "In skip()" << std::endl;
             char c = pick();
             if (c == ' ' || c == '\r' || c == '\t' )
                 // The character picked is a white space so we ignore it
@@ -75,12 +84,14 @@ namespace beatlang::lexer {
                 break;
             }
         }
+                std::cout << "Exiting skip()" << std::endl;
 
     }
 
     void Lexer::tokenise() {
-        
+
         while (pos < sourceCode.length()){
+        std::cout << "In tokenise()" << std::endl;
 
             skip_whiteSpace_comments();
 
@@ -144,7 +155,7 @@ namespace beatlang::lexer {
             // Consume identifiers and keywords
             if (std::isalpha(pickedChar) || pickedChar == '_'){
                 std::string text;
-                while (pick() != '\0' && sourceCode[pos + 1] != ' '){
+               while (std::isalnum(pick()) || pick() == '_') {
                     text += advance();
                 }
 
@@ -168,12 +179,16 @@ namespace beatlang::lexer {
                                       std::to_string(startCol) + ": Unrecognized character '" + unknownChar + "'");
         }
         addToken(TokenTypes::END_OF_FILE, "EOF", currentColumn);
+    std::cout << "Exiting tokenise()" << std::endl;
     }
     
     const std::vector<Token>& Lexer::getTokens() const {
         return extractedTokens;
     }
 
+    Lexer::~Lexer() {
+        std::cout << "Lexer Distructor" << std::endl;
+    }
 
     
 }
