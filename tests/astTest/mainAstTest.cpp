@@ -1,6 +1,7 @@
 #include <iostream>
 #include <memory>
 #include "../../includes/ast/ast.hpp"
+#include "../../includes/ast/prettyPrinter.hpp"
 
 using namespace beatlang::ast;
 
@@ -37,7 +38,9 @@ int main() {
 
         // 5. PRINT THE WHOLE TREE!
         std::cout << "AST Built Successfully! Printing...\n\n";
-        program->print();
+
+        PrettyPrinter printer;
+        program->accept(printer);
 
     } catch (const std::exception& e) {
         std::cerr << "Fatal Error: " << e.what() << "\n";

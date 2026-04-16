@@ -1,25 +1,26 @@
 #pragma once
-
+#include <string>
 #include <vector>
 #include <memory>
-#include <string>
 #include <iostream>
 
 namespace beatlang::ast {
+
+    class Visitor; // Forward declaring the visitor class replaces #include "visitor.hpp"
     
     // Base interface which characterises an AST node
     struct ASTNode {
 
         virtual ~ASTNode() = default;
 
-        virtual void print(int indent = 0) const = 0;
+        virtual void accept(Visitor &visitor) = 0;
     };
 
     struct TempoNode : public ASTNode {
         int bpm;
 
         explicit TempoNode(int bpm) : bpm(bpm) {};
-        void print(int indent = 0) const override;
+        void accept(Visitor& visitor) override;
     };
 
    struct TrackNode : public ASTNode {
@@ -30,7 +31,7 @@ namespace beatlang::ast {
         explicit TrackNode(std::string drumPart, std::string sequence) : drumPart(std::move(drumPart)),
                                                                             sequence(std::move(sequence)) {}
 
-        void print(int indent = 0) const override;
+        void accept(Visitor& visitor) override;
    };
 
    struct PatternNode : public ASTNode {
@@ -40,7 +41,7 @@ namespace beatlang::ast {
         explicit PatternNode(std::string patternName) : patternName(std::move(patternName)) {}
 
         void addTrack(std::unique_ptr<TrackNode> track);
-        void print(int indent = 0) const override;
+        void accept(Visitor& visitor) override;
 
    };
 
@@ -51,7 +52,7 @@ namespace beatlang::ast {
         std::string targetPattern;
         
         explicit PlayNode(std::string target) : targetPattern(std::move(targetPattern)) {};
-        void print(int indent = 0) const override;
+        void accept(Visitor& visitor) override;
 
    };
 
@@ -62,7 +63,7 @@ namespace beatlang::ast {
 
         explicit LoopNode(int loopCount) : loopCount(loopCount) {};
         void addStatement(std::unique_ptr<StatementNode> statement);
-        void print(int indent = 0) const override;
+        void accept(Visitor& visitor) override;
 
    };
 
@@ -71,7 +72,7 @@ namespace beatlang::ast {
         std::vector<std::unique_ptr<StatementNode>> statements;
 
         void buildSong(std::unique_ptr<StatementNode> statement);
-        void print(int indent = 0) const override;
+        void accept(Visitor& visitor) override;
    };
 
    struct ProgramNode : public ASTNode {
@@ -80,7 +81,7 @@ namespace beatlang::ast {
         std::vector<std::unique_ptr<PatternNode>> patterns;
         std::unique_ptr<SongNode> song;
 
-        void print(int indent = 0) const override;
+        void accept(Visitor& visitor) override;
    };
 
 } // namespace beatlang::ast
