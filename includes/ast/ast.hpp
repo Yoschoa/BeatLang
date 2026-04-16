@@ -1,7 +1,9 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 #include <string>
+#include <iostream>
 
 namespace beatlang::ast {
     
@@ -16,7 +18,7 @@ namespace beatlang::ast {
     struct TempoNode : public ASTNode {
         int bpm;
 
-        explicit Temponode(int bpm);
+        explicit Temponode(int bpm) : bpm(bpm) {};
         void print(int indent = 0) const override;
     };
 
@@ -53,7 +55,7 @@ namespace beatlang::ast {
 
    };
 
-   struct LoopStatement : public StatementNode {
+   struct LoopNode : public StatementNode {
 
         int loopCount;
         std::vector<std::unique_ptr<StatementNode>> body;
