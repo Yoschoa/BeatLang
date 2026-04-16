@@ -1,27 +1,27 @@
 #include "../../includes/ast/ast.hpp"
 
 
-namespace beatlang::lexer {
+namespace beatlang::ast {
 
     // Helper function to create an identation 
     std::string getIndent(int indent) {
         // return a string of length which is made up of space characters 
-        return std::string(indent, '');
+        return std::string(indent, ' ');
     }
 
-    TempoNode::print(int indent) const{
+    void TempoNode::print(int indent) const{
         std::cout << getIndent(indent) << "TempoNode: " << bpm << " BPM\n"; 
     }
 
-    TrackNode::print(int indent) const{
+    void TrackNode::print(int indent) const{
         std::cout << getIndent(indent) << "TrackNode: " << drumPart << " : [" << sequence << "]\n";
     }
 
-    PatternNode::addTrack(std::unique_ptr<TrackNode> track) {
-        drumTracks.push_back(std::move(track));
+    void PatternNode::addTrack(std::unique_ptr<TrackNode> track) {
+        patternTracks.push_back(std::move(track));
     }
 
-    PatternNode::print(int ident) const {
+    void PatternNode::print(int indent) const {
         std::cout << getIndent(indent) << "PatternNode: " << patternName << "\n";
         
         // loop through the vector of trackNode and print them out 
@@ -30,15 +30,15 @@ namespace beatlang::lexer {
         }
     }
 
-    PlayNode::print(int indent) const {
-        std::cout << getIndent(indent) << "PlayNode: " << targetPattern << "\n";
+    void PlayNode::print(int indent) const {
+        std::cout << getIndent(indent) << "PlayNode: target-> " << targetPattern << "\n";
     }
 
-    LoopNode::addStatement(std::unique_ptr<StatementNode> statement) {
+    void LoopNode::addStatement(std::unique_ptr<StatementNode> statement) {
         body.push_back(std::move(statement));
     }
 
-    LoopNode::print(int indent) const {
+    void LoopNode::print(int indent) const {
         std::cout << getIndent(indent) << "LoopNode: count-> " << loopCount << "\n";
         
         for (const auto &stmnt : body) {
@@ -46,19 +46,19 @@ namespace beatlang::lexer {
         }
     }
 
-    SongNode::buildSong(std::unique_ptr<StatementNode> statement) {
+    void SongNode::buildSong(std::unique_ptr<StatementNode> statement) {
         statements.push_back(std::move(statement));
-    }
+    };
 
-    SondNode::print(int indent) const{
+    void SongNode::print(int indent) const{
         std::cout << getIndent(indent) << "SongNode:\n";
-        for(const auto &stmnt : body) {
+        for(const auto &stmnt : statements) {
             stmnt->print(indent + 4);
         }
     }
 
-    ProgramNode::print(int indent) {
-        
+    void ProgramNode::print(int indent) const {
+
         std::cout << "=================================\n";
         std::cout << "       ABSTRACT SYNTAX TREE      \n";
         std::cout << "=================================\n";

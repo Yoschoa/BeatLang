@@ -18,7 +18,7 @@ namespace beatlang::ast {
     struct TempoNode : public ASTNode {
         int bpm;
 
-        explicit Temponode(int bpm) : bpm(bpm) {};
+        explicit TempoNode(int bpm) : bpm(bpm) {};
         void print(int indent = 0) const override;
     };
 
@@ -27,7 +27,7 @@ namespace beatlang::ast {
         std::string drumPart;
         std::string sequence;
 
-        explicit TrackNode(std::string drumPart, std::string sequence) : drumPart(std::move(drumPart))
+        explicit TrackNode(std::string drumPart, std::string sequence) : drumPart(std::move(drumPart)),
                                                                             sequence(std::move(sequence)) {}
 
         void print(int indent = 0) const override;
@@ -35,7 +35,7 @@ namespace beatlang::ast {
 
    struct PatternNode : public ASTNode {
         std::string patternName;
-        std::vector<std::unique_ptr<TrackNode>> drumTracks;
+        std::vector<std::unique_ptr<TrackNode>> patternTracks;
 
         explicit PatternNode(std::string patternName) : patternName(std::move(patternName)) {}
 
@@ -46,7 +46,7 @@ namespace beatlang::ast {
 
    struct StatementNode : public ASTNode {};
 
-   struct PlayNode : public ASTNode {
+   struct PlayNode : public StatementNode {
 
         std::string targetPattern;
         
@@ -81,7 +81,7 @@ namespace beatlang::ast {
         std::unique_ptr<SongNode> song;
 
         void print(int indent = 0) const override;
-   }
+   };
 
 } // namespace beatlang::ast
 
