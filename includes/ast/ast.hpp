@@ -1,0 +1,85 @@
+#pragma once
+
+#include <vector>
+#include <string>
+
+namespace beatlang::ast {
+    
+    // Base interface which characterises an AST node
+    struct ASTNode {
+
+        virtual ~ASTNode() = default;
+
+        virtual void print(int indent = 0) const = 0;
+    };
+
+    struct TempoNode : public ASTNode {
+        int bpm;
+
+        explicit Temponode(int bpm);
+        void print(int indent = 0) const override;
+    };
+
+   struct TrackNode : public ASTNode {
+
+        std::string drumPart;
+        std::string sequence;
+
+        explicit TrackNode(std::string drumPart, std::string sequence) : drumPart(std::move(drumPart))
+                                                                            sequence(std::move(sequence)) {}
+
+        void print(int indent = 0) const override;
+   };
+
+   struct PatternNode : public ASTNode {
+        std::string patternName;
+        std::vector<std::unique_ptr<TrackNode>> drumTracks;
+
+        explicit PatternNode(std::string patternName) : patternName(std::move(patternName)) {}
+
+        void addTrack(std::unique_ptr<TrackNode> track);
+        void print(int indent = 0) const override;
+
+   };
+
+   struct StatementNode : public ASTNode {};
+
+   struct PlayNode : public ASTNode {
+
+        std::string targetPattern;
+        
+        explicit PlayNode(std::string target) : targetPattern(std::move(targetPattern)) {};
+        void print(int indent = 0) const override;
+
+   };
+
+   struct LoopStatement : public StatementNode {
+
+        int loopCount;
+        std::vector<std::unique_ptr<StatementNode>> body;
+
+        explicit LoopNode(int loopCount) : loopCount(loopCount) {};
+        void addStatement(std::unique_ptr<StatementNode> statement);
+        void print(int indent = 0) const override;
+
+   };
+
+   struct SongNode : public StatementNode {
+
+        std::vector<std::unique_ptr<StatementNode>> statements;
+
+        void buildSong(std::unique_ptr<StatementNode> statement);
+        void print(int indent = 0) const override;
+   };
+
+   struct ProgramNode : public ASTNode {
+
+        std::unique_ptr<TempoNode> tempo;
+        std::vector<std::unique_ptr<PatternNode>> patterns;
+        std::unique_ptr<SongNode> song;
+
+        void print(int indent = 0) const override;
+   }
+
+} // namespace beatlang::ast
+
