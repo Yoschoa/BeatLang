@@ -10,8 +10,10 @@ namespace beatlang::lexer {
         // Identifiers
         IDENTIFIER,
         // Key words
-        KW_TEMPO, KW_PATTERN, KW_PLAY, KW_SONG, KW_HH, KW_SNARE, KW_KICK, KW_TOM1, KW_TOM2, 
-        KW_FLOOR, KW_CRASH, KW_RIDE_BELL, KW_SN_RIM, KW_RIDE_EDGE,
+        KW_TEMPO, KW_PATTERN, KW_PLAY, KW_SONG
+        // Removed drum parts key words, giving more flexibility to the user  
+        // KW_HH, KW_SNARE, KW_KICK, KW_TOM1, KW_TOM2, 
+        // KW_FLOOR, KW_CRASH, KW_RIDE_BELL, KW_SN_RIM, KW_RIDE_EDGE,
         // Comments
         COMMENT,
         // Symbols

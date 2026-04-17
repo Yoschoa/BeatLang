@@ -18,17 +18,17 @@ namespace beatlang::lexer {
             {"tempo", TokenTypes::KW_TEMPO},
             {"pattern", TokenTypes::KW_PATTERN},
             {"play", TokenTypes::KW_PLAY},
-            {"song", TokenTypes::KW_SONG},
-            {"kick", TokenTypes::KW_KICK},
-            {"snare", TokenTypes::KW_SNARE},
-            {"snare_rim", TokenTypes::KW_SN_RIM},
-            {"hi_hat", TokenTypes::KW_HH},
-            {"tom1", TokenTypes::KW_TOM1},
-            {"tom2", TokenTypes::KW_TOM2},
-            {"floor", TokenTypes::KW_FLOOR},
-            {"crash", TokenTypes::KW_CRASH},
-            {"ride_bell", TokenTypes::KW_RIDE_BELL},
-            {"ride_edge", TokenTypes::KW_RIDE_EDGE}
+            {"song", TokenTypes::KW_SONG}
+            // {"kick", TokenTypes::KW_KICK},
+            // {"snare", TokenTypes::KW_SNARE},
+            // {"snare_rim", TokenTypes::KW_SN_RIM},
+            // {"hi_hat", TokenTypes::KW_HH},
+            // {"tom1", TokenTypes::KW_TOM1},
+            // {"tom2", TokenTypes::KW_TOM2},
+            // {"floor", TokenTypes::KW_FLOOR},
+            // {"crash", TokenTypes::KW_CRASH},
+            // {"ride_bell", TokenTypes::KW_RIDE_BELL},
+            // {"ride_edge", TokenTypes::KW_RIDE_EDGE}
         };
     }   
     
