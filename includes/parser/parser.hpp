@@ -13,9 +13,10 @@ namespace beatlang::ast {
     struct PlayNode;
     struct LoopNode;
     struct SongNode;
+    struct StatementNode;
     struct ProgramNode;
 
-}
+} // namespace beatlang::ast
 
 namespace beatlang::parser {
 
@@ -26,24 +27,25 @@ namespace beatlang::parser {
             const std::vector<lexer::Token>& tokens;
             int pos;
 
-            lexer::Token pick() const;
+            lexer::Token peek() const;
             lexer::Token advance();
 
-            lexer::Token consume(lexer:: Tokentypes expected,const std::string errorMsg);
+            lexer::Token consume(lexer::TokenTypes expected,const std::string errorMsg);
 
         public:
 
             explicit Parser(const std::vector<lexer::Token>& tokenList);
 
-            std::unique_ptr<ast::ProgramNode> parseProgramm();
             std::unique_ptr<ast::TempoNode> parseTempo();
             std::unique_ptr<ast::TrackNode> parseTrack();
             std::unique_ptr<ast::PatternNode> parsePattern();
             std::unique_ptr<ast::PlayNode> parsePlay();
             std::unique_ptr<ast::LoopNode> parseLoop();
-            std::unique_ptr<ast::SongNode> parseSong()
+            std::unique_ptr<ast::StatementNode> parseStatement();
+            std::unique_ptr<ast::SongNode> parseSong();
+            std::unique_ptr<ast::ProgramNode> parseProgram();
 
-    }
+    };
 
 
-}
+} // namespace beatlang::ast
