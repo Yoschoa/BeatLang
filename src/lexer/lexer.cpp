@@ -18,6 +18,7 @@ namespace beatlang::lexer {
             {"tempo", TokenTypes::KW_TEMPO},
             {"pattern", TokenTypes::KW_PATTERN},
             {"play", TokenTypes::KW_PLAY},
+            {"loop", TokenTypes::KW_LOOP},
             {"song", TokenTypes::KW_SONG}
             // {"kick", TokenTypes::KW_KICK},
             // {"snare", TokenTypes::KW_SNARE},

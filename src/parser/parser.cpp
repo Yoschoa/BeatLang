@@ -33,7 +33,7 @@ namespace beatlang::parser {
     }
 
     Parser::Parser(const std::vector<lexer::Token>& tokenList): tokens(tokenList), 
-                                                                pos(0) {}
+                                                                pos(0) {        std::cout << "Parser instanciated\n";}
 
 
     std::unique_ptr<ast::TempoNode> Parser::parseTempo() {
@@ -111,18 +111,15 @@ namespace beatlang::parser {
         }
 
         std::unique_ptr<ast::PlayNode> Parser::parsePlay() {
-
             // Grammar Rule
             // Play Statement -> KW_PLAY pattern IDENTIFIER;
 
             // Expect play keyword
             consume(lexer::TokenTypes::KW_PLAY, "Expected a 'play' keyword");
-
             // Expect a pattern identifier
-            lexer::Token targetPattern = consume(lexer::TokenTypes::IDENTIFIER, "Expected pattern name to play");
+            lexer::Token targetPattern = consume(lexer::TokenTypes::IDENTIFIER, "Expected pattern name after play");
             consume(lexer::TokenTypes::SEMI_COLON, "Expected ';' at end of play statement");
-            
-
+    
             return std::make_unique<ast::PlayNode>(targetPattern.lexeme);
 
         }
@@ -142,10 +139,11 @@ namespace beatlang::parser {
             consume(lexer::TokenTypes::LBRACE, "Expected '{' after loop count");
 
             auto loopStatement = std::make_unique<ast::LoopNode>(std::stoi(loopCount.lexeme));
-
             while(peek().type != lexer::TokenTypes::RBRACE && peek().type != lexer::TokenTypes::END_OF_FILE){
                 // Expect a play statement
-                loopStatement->addStatement(parseStatement());
+                auto stmt = parseStatement();
+
+                loopStatement->addStatement(std::move(stmt)); 
             }
 
             consume(lexer::TokenTypes::RBRACE, "Expected '}'");
@@ -155,7 +153,6 @@ namespace beatlang::parser {
 
         
         std::unique_ptr<ast::StatementNode> Parser::parseStatement() {
-
             lexer::Token current = peek();
 
             // If the current token type is play we call the  parsePlay()
@@ -181,7 +178,6 @@ namespace beatlang::parser {
 
             // Grammar Rule
             // Song Statement -> KW_SONG { statements }
-
             // Expect keyword song
             consume(lexer::TokenTypes::KW_SONG, "Expected 'song' kw");
 
@@ -193,18 +189,18 @@ namespace beatlang::parser {
 
             // Expect statements eg loop 4 {statements} play pattern;
             while(peek().type != lexer::TokenTypes::RBRACE && peek().type != lexer::TokenTypes::END_OF_FILE ) {
-                song->buildSong(parseStatement());
+                auto stmt = parseStatement();
+        
+                song->buildSong(std::move(stmt));
             }
             
             // Expect a RBRACE '}' symbol
             consume(lexer::TokenTypes::RBRACE, "Expected '}' after song definition");
-
             return song;
 
         }
 
         std::unique_ptr<ast::ProgramNode> Parser::parseProgram() {
-
             // Programm structure
             // Grammar rule
             // Tempo declaration
@@ -219,10 +215,8 @@ namespace beatlang::parser {
             while (peek().type == lexer::TokenTypes::KW_PATTERN) {
                 program->patterns.push_back(parsePattern());
             }
-
             // Expect song definition
             program->song = parseSong();
-
             consume(lexer::TokenTypes::END_OF_FILE, "Expected End of File");
 
             return program;
