@@ -51,7 +51,7 @@ namespace beatlang::ast {
 
         std::string targetPattern;
         
-        explicit PlayNode(std::string target) : targetPattern(std::move(targetPattern)) {};
+        explicit PlayNode(std::string targetPattern) : targetPattern(std::move(targetPattern)) {};
         void accept(Visitor& visitor) override;
 
    };
