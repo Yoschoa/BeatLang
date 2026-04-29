@@ -38,7 +38,7 @@ namespace beatlang::lexer {
         private:
         
             std::string sourceCode;
-            int pos;
+            size_t pos;
             int currentLine;
             int currentColumn;
             std::vector<Token> extractedTokens;

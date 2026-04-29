@@ -25,7 +25,7 @@ namespace beatlang::parser {
         private:
             
             const std::vector<lexer::Token>& tokens;
-            int pos;
+            size_t pos;
 
             lexer::Token peek() const;
             lexer::Token advance();
