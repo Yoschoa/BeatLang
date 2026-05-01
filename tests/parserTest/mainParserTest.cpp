@@ -3,11 +3,12 @@
 #include <memory>
 #include <string>
 
-// Adjust these paths depending on exactly where you saved this test file!
+
 #include "../../includes/lexer/lexer.hpp"
 #include "../../includes/parser/parser.hpp"
 #include "../../includes/ast/ast.hpp"
 #include "../../includes/ast/prettyPrinter.hpp"
+#include "../../includes/semantic/semanticAnalyzer.hpp"
 
 int main() {
     // 1. Write some dummy BeatLang code to test your grammar!
@@ -46,11 +47,17 @@ int main() {
         std::cout << "[3/3] Printing AST Architecture:\n\n";
         beatlang::ast::PrettyPrinter printer;
         ast->accept(printer);
+
+        // 5. Run Semantic Analysis
+        std::cout << "[4/4] Running Semantic Analyzer (Checking for logic errors)...\n";
+        beatlang::semantic::SemanticAnalyzer analyzer;
+        ast->accept(analyzer);
+        std::cout << "      Success! No semantic errors found. The code is flawless.\n\n";
         
         std::cout << "\nCompilation finished successfully!\n";
 
     } catch (const std::exception& e) {
-        // This will catch any std::runtime_error thrown by your consume() function!
+        // This will catch any std::runtime_error thrown by  the consume() function!
         std::cerr << "\n[!] COMPILER CRASHED:\n" << e.what() << "\n";
         return 1;
     }

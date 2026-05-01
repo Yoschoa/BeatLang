@@ -1,0 +1,18 @@
+tempo 125;
+
+pattern buildup {
+    kick:       "X...X...X...X...";
+    hihat:      "X.x.X.x.X.x.X.x.";
+}
+
+pattern the_drop {
+    kick:       "X...X...X...X...";
+    snare:      "....X.......X...";
+    hihat:      "X.x.X.x.X.x.X.x.";
+    hihat_open: "..X...X...X...X.";
+}
+
+song {
+    loop 2 { play buildup; }
+    loop 4 { play the_drop; }
+}
