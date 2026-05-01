@@ -24,7 +24,7 @@ CORE_SRCS = src/lexer/lexer.cpp \
 # BUILD TARGETS
 # ==========================================
 
-all: test_lexer test_compiler
+all: test_lexer test_compiler test_ast test_compiler_audio beatlang
 
 test_lexer: tests/lexerTest/mainLexerTest.cpp src/lexer/lexer.cpp
 	@echo "Building Lexer Test..."
