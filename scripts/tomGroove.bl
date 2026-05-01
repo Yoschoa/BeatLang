@@ -1,0 +1,21 @@
+tempo 130;
+
+pattern shout_groove {
+    kick:  "X...X...X...X...";
+    snare: "....X.......X...";
+    tom:   "..xX..xX..xX..xX";
+    floor: "x.X...x.x.X...x.";
+}
+
+pattern drum_break {
+    kick:  "X...X...X...X...";
+    tom:   "XXXX....xxxx....";
+    floor: "....XXXX....xxxx";
+}
+
+song {
+    loop 3 {
+        play shout_groove;
+    }
+    play drum_break;
+}

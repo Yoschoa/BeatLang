@@ -14,14 +14,14 @@ int main() {
     std::cout << "     BEATLANG AUDIO ENGINE       \n";
     std::cout << "=================================\n\n";
 
-    // Your Funk Groove with a Drum Fill!
+    //  Funk Groove with a Drum Fill!
     std::string sourceCode = R"(
         tempo 105;
 
         pattern funk_groove {
             kick:       "X...X.x.X...X...";
-            snare:      "....X.......X...";
-            hihat:      "xXxXxXxXxXxXxXxX";
+            snare:      "....x.......x...";
+            hihat:      "x.X.x.X.x.X.x.X.";
         }
 
         pattern drum_fill {

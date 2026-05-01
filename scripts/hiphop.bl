@@ -1,0 +1,20 @@
+tempo 88;
+
+pattern verse {
+    kick:  "X..x....xX......";
+    snare: "....X.......X...";
+    hihat: "xXxXxXxXxXxXxXxX";
+}
+
+pattern turnaround {
+    kick:  "X..x....x.X.x.X.";
+    snare: "....X.......X...";
+    hihat: "xXxXxXxXxXxX....";
+}
+
+song {
+    loop 3 {
+        play verse;
+    }
+    play turnaround;
+}

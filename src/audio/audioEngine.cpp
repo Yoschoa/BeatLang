@@ -3,7 +3,6 @@
 namespace beatlang::audio {
 
     AudioEngine::AudioEngine() : isInitialized(false) {
-        // 1. Initialize the miniaudio engine (Connects to the OS soundcard)
         ma_result result = ma_engine_init(NULL, &engine);
         if (result != MA_SUCCESS) {
             std::cerr << "CRITICAL ERROR: Failed to initialize audio engine!" << std::endl;
@@ -11,20 +10,34 @@ namespace beatlang::audio {
         }
         isInitialized = true;
 
-        // 2. Register your downloaded drum samples
-        // The left side is what the user types in BeatLang. 
-        // The right side is the file miniaudio will play.
-        instrumentMap["kick"]       = "assets/kick.wav";
-        instrumentMap["snare"]      = "assets/snare.wav";
-        instrumentMap["hihat"]      = "assets/hh_closed.wav";
-        instrumentMap["hihat_open"] = "assets/hh_open.wav";
-        instrumentMap["tom"]        = "assets/tom2.wav";
-        instrumentMap["floor"]      = "assets/floor.wav";
+        loadSound("kick", "assets/kick.wav");
+        loadSound("snare", "assets/snare.wav");
+        loadSound("hihat", "assets/hh_closed.wav");
+        loadSound("hihat_open", "assets/hh_open.wav");
+        loadSound("tom", "assets/tom2.wav");
+        loadSound("floor", "assets/floor.wav");
+    }
+
+    void AudioEngine::loadSound(const std::string& name, const std::string& filepath) {
+        // FIX: Allocate the sound object on the Heap!
+        auto sound = std::make_unique<ma_sound>();
+        
+        // Use sound.get() to pass the raw memory address
+        ma_result result = ma_sound_init_from_file(&engine, filepath.c_str(), 0, NULL, NULL, sound.get());
+        
+        if (result == MA_SUCCESS) {
+            instrumentMap[name] = std::move(sound); // Safely move the pointer into the map
+        } else {
+            std::cerr << "Audio Warning: Could not load '" << filepath << "'" << std::endl;
+        }
     }
 
     AudioEngine::~AudioEngine() {
-        // Safely disconnect from the soundcard when the program ends
         if (isInitialized) {
+            for (auto& pair : instrumentMap) {
+                // FIX: Uninitialize using .get()
+                ma_sound_uninit(pair.second.get());
+            }
             ma_engine_uninit(&engine);
         }
     }
@@ -32,18 +45,16 @@ namespace beatlang::audio {
     void AudioEngine::playInstrument(const std::string& instrumentName, float volume) {
         if (!isInitialized) return;
 
-        // Look up the instrument in our map
         auto it = instrumentMap.find(instrumentName);
         if (it != instrumentMap.end()) {
             
-            // miniaudio plays the sound asynchronously (it doesn't freeze the program)
-            // We use ma_engine_play_sound to fire-and-forget the one-shot sample.
-            // Note: For advanced volume control on individual one-shots, you'd configure
-            // an ma_sound object, but play_sound triggers it at default volume instantly.
-            ma_engine_play_sound(&engine, it->second.c_str(), NULL);
+            // FIX: Access the underlying pointer with .get()
+            ma_sound_set_volume(it->second.get(), volume);
+            ma_sound_seek_to_pcm_frame(it->second.get(), 0);
+            ma_sound_start(it->second.get());
             
         } else {
-            std::cerr << "Audio Warning: Instrument '" << instrumentName << "' not mapped to a .wav file." << std::endl;
+            std::cerr << "Audio Warning: Instrument '" << instrumentName << "' not found." << std::endl;
         }
     }
 

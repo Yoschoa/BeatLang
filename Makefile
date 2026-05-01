@@ -18,8 +18,8 @@ CORE_SRCS = src/lexer/lexer.cpp \
             src/semantic/semanticAnalyzer.cpp \
             src/audio/miniaudio.cpp \
             src/audio/audioEngine.cpp \
-            src/audio/audioVisitor.cpp
-
+            src/audio/audioVisitor.cpp \
+            src/compiler/compiler.cpp
 # ==========================================
 # BUILD TARGETS
 # ==========================================
@@ -43,6 +43,12 @@ test_compiler_audio: tests/audioTest/mainAudioTest.cpp $(CORE_SRCS)
 	@mkdir -p $(BIN_DIR)
 	$(CXX) $(CXXFLAGS) $^ -o $(BIN_DIR)/test_compiler_audio_bin $(LDFLAGS)
 	@echo "Success! Run with: ./$(BIN_DIR)/test_compiler_audio_bin"
+
+beatlang: src/main.cpp $(CORE_SRCS)
+	@echo "Building Final Production Compiler..."
+	@mkdir -p $(BIN_DIR)
+	$(CXX) $(CXXFLAGS) $^ -o $(BIN_DIR)/beatlang $(LDFLAGS)
+	@echo "Success! Your compiler is ready."
 
 clean:
 	@echo "Cleaning up build files..."

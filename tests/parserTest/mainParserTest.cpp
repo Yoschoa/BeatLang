@@ -3,7 +3,7 @@
 #include <memory>
 #include <string>
 
-// Adjust these paths depending on exactly where you saved this test file!
+
 #include "../../includes/lexer/lexer.hpp"
 #include "../../includes/parser/parser.hpp"
 #include "../../includes/ast/ast.hpp"
@@ -57,7 +57,7 @@ int main() {
         std::cout << "\nCompilation finished successfully!\n";
 
     } catch (const std::exception& e) {
-        // This will catch any std::runtime_error thrown by your consume() function!
+        // This will catch any std::runtime_error thrown by  the consume() function!
         std::cerr << "\n[!] COMPILER CRASHED:\n" << e.what() << "\n";
         return 1;
     }

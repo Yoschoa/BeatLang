@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include <iostream>
+#include <memory> 
 
 namespace beatlang::audio {
 
@@ -12,16 +13,15 @@ namespace beatlang::audio {
         ma_engine engine;
         bool isInitialized;
 
-        // This map connects BeatLang instrument names (e.g., "kick") 
-        // to the actual file paths on your hard drive.
-        std::unordered_map<std::string, std::string> instrumentMap;
+        // FIX: Store pointers to the sounds, so their memory address NEVER changes!
+        std::unordered_map<std::string, std::unique_ptr<ma_sound>> instrumentMap;
+
+        void loadSound(const std::string& name, const std::string& filepath);
 
     public:
         AudioEngine();
         ~AudioEngine();
 
-        // Plays a sound with a specific volume (velocity)
-        // volume range is typically 0.0f (silent) to 1.0f (full volume)
         void playInstrument(const std::string& instrumentName, float volume = 1.0f);
     };
 

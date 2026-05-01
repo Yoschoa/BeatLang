@@ -1,0 +1,18 @@
+tempo 145;
+
+pattern bounce {
+    kick:  "X.....X...x.....";
+    snare: "........X.......";
+    hihat: "X.X.X.X.xxx.X.X.";
+}
+
+pattern roll_fill {
+    kick:  "X.....X.........";
+    snare: "........X.......";
+    hihat: "X.X.xxx.X.X.xxxx";
+}
+
+song {
+    loop 3 { play bounce; }
+    play roll_fill;
+}

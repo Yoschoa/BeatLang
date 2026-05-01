@@ -10,7 +10,7 @@ namespace beatlang::audio {
 
     class AudioVisitor : public ast::Visitor {
     private:
-        AudioEngine engine; // The miniaudio wrapper we just built
+        AudioEngine engine; 
         std::unordered_map<std::string, ast::PatternNode*> patternMap;
         int currentBpm;
 
