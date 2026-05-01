@@ -1,4 +1,6 @@
-21tempo 90;
+tempo 90;
 pattern dilla {
-    kick: "X..<....";
+    kick: "X...x...";
+    snare: "....X...";
 }
+song { loop 2 { play dilla; } }

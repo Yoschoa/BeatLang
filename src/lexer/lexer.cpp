@@ -188,7 +188,6 @@ namespace beatlang::lexer {
     }
 
     Lexer::~Lexer() {
-        std::cout << "Lexer Distructor" << std::endl;
     }
 
     

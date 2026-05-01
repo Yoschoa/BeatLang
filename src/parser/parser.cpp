@@ -33,7 +33,7 @@ namespace beatlang::parser {
     }
 
     Parser::Parser(const std::vector<lexer::Token>& tokenList): tokens(tokenList), 
-                                                                pos(0) {        std::cout << "Parser instanciated\n";}
+                                                                pos(0) {}
 
 
     std::unique_ptr<ast::TempoNode> Parser::parseTempo() {
