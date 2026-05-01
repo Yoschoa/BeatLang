@@ -32,12 +32,20 @@ test_lexer: tests/lexerTest/mainLexerTest.cpp src/lexer/lexer.cpp
 	$(CXX) $(CXXFLAGS) tests/lexerTest/mainLexerTest.cpp src/lexer/lexer.cpp -o $(BIN_DIR)/test_lexer_bin
 	@echo "Success! Run with: ./$(BIN_DIR)/test_lexer_bin"
 
+test_ast: tests/astTest/mainAstTest.cpp src/ast/ast.cpp
+	@echo "Building AST Test..."
+	@mkdir -p $(BIN_DIR)
+	$(CXX) $(CXXFLAGS) $^ -o $(BIN_DIR)/test_ast_bin
+	@echo "Success! Run with: ./$(BIN_DIR)/test_ast_bin"
+
+# test parser + semantic analysis
 test_compiler: tests/parserTest/mainParserTest.cpp $(CORE_SRCS)
 	@echo "Building Full Compiler Pipeline..."
 	@mkdir -p $(BIN_DIR)
 	$(CXX) $(CXXFLAGS) $^ -o $(BIN_DIR)/test_compiler_bin $(LDFLAGS)
 	@echo "Success! Run with: ./$(BIN_DIR)/test_compiler_bin"
 
+# test audio engine
 test_compiler_audio: tests/audioTest/mainAudioTest.cpp $(CORE_SRCS)
 	@echo "Building Full Compiler + audio Pipeline..."
 	@mkdir -p $(BIN_DIR)
